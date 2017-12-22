@@ -14,6 +14,10 @@ let spinner;
 
 function run(runArray)
 {
+	server.use('/ue', (req, res) => {
+		res.status(200).send('running');
+	});
+
 	server.use('/', proxy('api.sendgrid.com',
 	{
 		https: true,
