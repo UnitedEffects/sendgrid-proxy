@@ -1,6 +1,8 @@
-const proxy = require('express-http-proxy');
+//const proxy = require('express-http-proxy');
 const server = require('express')();
+const bodyParser = require('body-parser');
 const wordingArray = require('../wording.json');
+const request = require('request');
 
 let spinner;
 
@@ -14,6 +16,8 @@ let spinner;
 
 function run(runArray)
 {
+    server.use(bodyParser.json({limit: '1mb'}));
+    server.use(bodyParser.urlencoded({ extended: true }));
 	server.use(function(req, res, next) {
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Methods", "GET, HEAD, POST, DELETE, PUT, PATCH, OPTIONS");
@@ -21,10 +25,25 @@ function run(runArray)
         next();
     });
 
-	server.use('/ue', (req, res) => {
+	server.get('/ue', (req, res) => {
 		res.status(200).send('running');
 	});
 
+	server.post('/ue/mail/send', (req, res) => {
+        request({
+			method: 'POST',
+            headers: {
+				'Content-Type' : 'application/json',
+				'Authorization': 'bearer '+process.env.SENDGRID_API_ID
+			},
+            uri: 'https://api.sendgrid.com/v3/mail/send',
+            json: req.body
+        }, (error, response, body) => {
+		if(error) return res.status(500).json(error);
+		return res.status(response.statusCode).json(body);
+        });
+	});
+	/*
 	server.use('/', proxy('api.sendgrid.com',
 	{
 		https: true,
@@ -50,7 +69,7 @@ function run(runArray)
 			return proxyResData;
 		}
 	}));
-
+*/
 	/* listen */
 
 	server.listen(runArray.port, () =>
