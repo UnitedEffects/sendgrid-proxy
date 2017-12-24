@@ -14,6 +14,13 @@ let spinner;
 
 function run(runArray)
 {
+	server.use(function(req, res, next) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Methods", "GET, HEAD, POST, DELETE, PUT, PATCH, OPTIONS");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, api_key, Authorization");
+        next();
+    });
+
 	server.use('/ue', (req, res) => {
 		res.status(200).send('running');
 	});
