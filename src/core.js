@@ -3,6 +3,7 @@ const server = require('express')();
 const bodyParser = require('body-parser');
 const wordingArray = require('../wording.json');
 const request = require('request');
+const auth = require('./auth/api');
 
 let spinner;
 
@@ -29,7 +30,7 @@ function run(runArray)
 		res.status(200).send('running');
 	});
 
-	server.post('/ue/mail/send', (req, res) => {
+	server.post('/ue/mail/send', auth.isBearerAuthenticated, (req, res) => {
         request({
 			method: 'POST',
             headers: {
