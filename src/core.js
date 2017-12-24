@@ -37,6 +37,8 @@ function run(runArray)
 		userResDecorator: (proxyRes, proxyResData, userReq, userRes) =>
 		{
 			userRes.set('Access-Control-Allow-Origin', '*');
+			userRes.set("Access-Control-Allow-Methods", "GET, HEAD, POST, DELETE, PUT, PATCH, OPTIONS");
+			userRes.set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, api_key, Authorization");
 			if (userRes.statusCode > 399 && userRes.statusCode < 600)
 			{
 				spinner.fail(userReq.method + ' ' + userReq.path + ' ' + userRes.statusCode);
