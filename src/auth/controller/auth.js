@@ -2,19 +2,12 @@
  * Created by borzou on 9/27/16.
  */
 const passport = require('passport');
-const Promise = require('bluebird');
-const BasicStrategy = require('passport-http').BasicStrategy;
 const BearerStrategy = require('passport-http-bearer').Strategy;
-const User = Promise.promisifyAll(require('../../user/model/user'));
-const Perm = Promise.promisifyAll(require('../../user/model/admin'));
-const Role = Promise.promisifyAll(require('../../user/model/roles'));
-const Code = Promise.promisifyAll(require('../model/auth'));
-const Token = Promise.promisifyAll(require('../model/token'));
 const moment = require('moment');
 const request = Promise.promisify(require('request'));
-const send = require('../../callback');
-const config = require('../../../config');
-const helper = require('../../helper');
+const send = require('./callback');
+const config = require('./config');
+const helper = require('./helper');
 
 
 passport.use('basic', new BasicStrategy({
