@@ -3,7 +3,7 @@
  */
 
 const config = {
-    authApiServer: (process.env.NODE_ENV==='production') ? 'https://domain.unitedeffects.com' : 'https://domainqa.unitedeffects.com',
+    authApiServer: process.env.DOMAIN || 'https://domainqa.unitedeffects.com',
     emailHook: process.env.SENDGRID_API_ID || 'SENDGRIDAPIID'
 };
 
